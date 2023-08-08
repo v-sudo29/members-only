@@ -7,13 +7,15 @@ import {
 
 import { ChakraProvider } from '@chakra-ui/react'
 import Layout from './components/Layout'
-import Home from './components/Home'
+import Home from './pages/Home'
+import SignUp from './pages/SignUp'
 import './App.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
       <Route index element={<Home/>} />
+      <Route path='/sign-up' element={<SignUp/>} />
     </Route>
   )
 )
