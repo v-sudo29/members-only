@@ -28,7 +28,15 @@ export default function Home() {
   return (
     <div>
       <Heading>Homepage</Heading>
-      { authUser && <Heading fontSize='1.4rem' fontWeight='400'>Hello {authUser.username} </Heading> }
+      { authUser && (
+        <Heading 
+          fontSize='1.4rem' 
+          fontWeight='400'
+          mt='1rem'
+          >
+            Hello {authUser.username} 
+          </Heading> 
+      )}
       <Button onClick={handleGetInfo} mt='1rem'>Get User Info</Button>
       { isLoggedIn && <Button onClick={handleLogout} ml='1rem' mt='1rem'>Log Out</Button> }
     </div>
