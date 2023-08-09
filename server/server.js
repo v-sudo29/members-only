@@ -3,11 +3,10 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const passport = require('passport')
-const passportLocal = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const indexRouter = require('./routes/index')
+const localStrategy = require('./passportConfig')
 
 const app = express()
 const mongoDb = process.env.MONGO_DB_URI
@@ -35,6 +34,7 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+localStrategy(passport)
 
 app.use(cookieParser('secretcode')) // use same secret from session as param
 
