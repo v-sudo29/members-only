@@ -6,4 +6,4 @@ const UserSchema = new mongoose.Schema({
   membershipStatus: { type: Boolean }
 })
 
-module.exports = mongoose.Model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema)
