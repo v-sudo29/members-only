@@ -12,8 +12,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
     else {
       req.logIn(user, err => {
         if (err) throw err
-        res.send('Successfully Authenticated')
-        console.log(req.user)
+        res.send(req.user)
       })
     }
   })(req, res, next)
@@ -37,6 +36,13 @@ exports.user_create = asyncHandler(async (req, res, next) => {
 
 // GET request to retrieve user info
 exports.user_info = asyncHandler(async (req, res, next) => {
-  console.log(req.body)
-  res.json(req.body)
+  if (!req.user) res.send('No user logged in')
+  else res.send(req.user)
 })
+
+exports.user_logout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err)
+    res.send('User logged out')
+  })
+}
