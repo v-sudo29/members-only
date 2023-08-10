@@ -1,10 +1,11 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   Button,
   Heading,
   FormLabel,
   Input,
+  Text,
   VStack
 } from "@chakra-ui/react"
 import { Form } from "react-router-dom"
@@ -12,6 +13,7 @@ import axios from "axios"
 import { useAuth } from "../context/AuthContext"
 
 export default function Login() {
+  const [invalidCredentials, setInvalidCredentials] = useState<boolean>(false)
   const usernameRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
   const navigate = useNavigate()
@@ -28,20 +30,34 @@ export default function Login() {
       axios.post('http://localhost:3000/login', payload, { withCredentials: true })
         .then(result => {
           if (result.data !== 'Invalid credentials') {
+            setInvalidCredentials(false)
             setAuthUser(result.data)
             setIsLoggedIn(true)
             navigate('/')
           }
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+          console.log(err)
+          if (err.response.status === 401) setInvalidCredentials(true)
+        })
     }
   }
 
   return (
     <VStack>
       <Heading>Login</Heading>
+      {invalidCredentials && 
+        <Text 
+          pos='absolute'
+          color='red.500'
+          top='8.5rem'
+          fontWeight='500'
+        >
+          Invalid username or password. Please try again.
+        </Text>
+      }
       <Form onSubmit={(e) => handleSubmit(e)} style={{ width: '20rem'}}>
-        <FormLabel mt='1rem'>Username</FormLabel>
+        <FormLabel mt='2rem'>Username</FormLabel>
         <Input 
           ref={usernameRef}
           type='text'
