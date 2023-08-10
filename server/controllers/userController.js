@@ -7,7 +7,7 @@ const passport = require('passport')
 // POST request to login
 exports.user_login = asyncHandler(async (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
-    console.log(user)
+    console.log(req.user)
     if (err) throw err
     if (!user) res.status(401).json({ error: 'Invalid username or password '})
     else {
