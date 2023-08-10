@@ -22,14 +22,18 @@ export default function Header() {
       gap: '2rem',
       padding: '2rem'
     }}>
-      <NavLink to='/'>Home</NavLink>
       {!isLoggedIn && (
         <>
-          <NavLink to='/login'>Login</NavLink>      
+          <NavLink to='/'>Login</NavLink>      
           <NavLink to='/sign-up'>Sign Up</NavLink>
         </>
       )}
-      {isLoggedIn && <NavLink onClick={handleLogout} to='/'>Logout</NavLink> } 
+      {isLoggedIn && 
+      <>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink onClick={handleLogout} to='/'>Logout</NavLink> 
+      </>
+      } 
     </nav>
   )
 }
