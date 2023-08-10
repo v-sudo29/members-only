@@ -6,18 +6,17 @@ const passport = require('passport')
 
 // POST request to login
 exports.user_login = asyncHandler(async (req, res, next) => {
-  res.send('hello!')
-  // passport.authenticate('local', (err, user, info) => {
-  //   console.log(user)
-  //   if (err) throw err
-  //   if (!user) res.status(401).json({ error: 'Invalid username or password '})
-  //   else {
-  //     req.logIn(user, err => {
-  //       if (err) throw err
-  //       res.send(req.user)
-  //     })
-  //   }
-  // })(req, res, next)
+  passport.authenticate('local', (err, user, info) => {
+    console.log(user)
+    if (err) throw err
+    if (!user) res.status(401).json({ error: 'Invalid username or password '})
+    else {
+      req.logIn(user, err => {
+        if (err) throw err
+        res.send(req.user)
+      })
+    }
+  })(req, res, next)
 })
 
 // POST request to create new User
@@ -46,6 +45,7 @@ exports.user_logout = (req, res, next) => {
 
 // GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {
-  if (!req.user) res.send('User not logged in')
-  else res.send(req.user)
+  req.send('hello!')
+  // if (!req.user) res.send('User not logged in')
+  // else res.send(req.user)
 }
