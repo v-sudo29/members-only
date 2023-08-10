@@ -6,7 +6,7 @@ const passport = require('passport')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const localStrategy = require('./passportConfig')
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')
 
 const indexRouter = require('./routes/index')
 const messageRouter = require('./routes/message')
@@ -32,9 +32,9 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const sessionStore = new MongoStore({
-  mongooseConnection: db,
-  collection: 'sessions'
+const sessionStore = MongoStore.create({
+  client: db,
+  collectionName: 'sessions'
 })
 
 app.use(session({
