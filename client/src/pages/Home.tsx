@@ -44,16 +44,6 @@ export default function Home() {
       .catch(err => console.log(err))
   }, [])
 
-  // Handles checking if user is logged in
-  const handleGetInfo = () => {
-    axios.get('http://localhost:3000/user', { withCredentials: true })
-      .then(result => {
-        if (result.data == 'No user logged in') console.log('No user logged in')
-        else console.log('User is logged in!')
-      })
-      .catch(err => console.log(err))
-  }
-
   // Handles logging out
   const handleLogout = () => {
     axios.get('http://localhost:3000/logout', { withCredentials: true })
@@ -144,7 +134,6 @@ export default function Home() {
           {messageCards && messageCards}
         </HStack>
       </Stack>
-      <Button onClick={handleGetInfo} mt='1rem'>Get User Info</Button>
       <Button onClick={handleLogout} ml='1rem' mt='1rem'>Log Out</Button>
       <Button onClick={onOpen} ml='1rem' mt='1rem'>Create Message</Button>
       

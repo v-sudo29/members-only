@@ -34,12 +34,6 @@ exports.user_create = asyncHandler(async (req, res, next) => {
   }
 })
 
-// GET request to retrieve user info
-exports.user_info = asyncHandler(async (req, res, next) => {
-  if (!req.user) res.send('No user logged in')
-  else res.send(req.user)
-})
-
 // GET request to log out user
 exports.user_logout = (req, res, next) => {
   req.logout((err) => {
