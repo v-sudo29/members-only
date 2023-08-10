@@ -11,7 +11,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text,
   Textarea,
   useDisclosure
 } from "@chakra-ui/react"
