@@ -14,4 +14,7 @@ router.get('/user', user_controller.user_info)
 // GET request to log out
 router.get('/logout', user_controller.user_logout)
 
+// GET request to check auth
+router.get('/checkAuth', user_controller.user_auth_check)
+
 module.exports = router

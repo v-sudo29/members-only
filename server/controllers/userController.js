@@ -46,3 +46,9 @@ exports.user_logout = (req, res, next) => {
     res.send('User logged out')
   })
 }
+
+// GET request to check authentication
+exports.user_auth_check = (req, res, next) => {
+  if (!req.user) res.send('User not logged in')
+  else res.send(req.user)
+}
