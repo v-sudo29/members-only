@@ -6,6 +6,7 @@ const passport = require('passport')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const localStrategy = require('./passportConfig')
+const MongoStore = require('connect-mongo')(session)
 
 const indexRouter = require('./routes/index')
 const messageRouter = require('./routes/message')
@@ -30,16 +31,26 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+const sessionStore = new MongoStore({
+  mongooseConnection: db,
+  collection: 'sessions'
+})
+
 app.use(session({
   secret: 'secretcode',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
+  }
 }))
 localStrategy(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-
 app.use(cookieParser('secretcode')) // use same secret from session as param
+
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
