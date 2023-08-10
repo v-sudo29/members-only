@@ -32,13 +32,15 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+const sessionStore = MongoStore.create({
+  client: db.getClient(),
+})
+
 app.use(session({
   secret: 'secretcode',
   resave: true,
   saveUninitialized: true,
-  store: MongoStore.create({
-    client: db,
-  }),
+  store: sessionStore,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
