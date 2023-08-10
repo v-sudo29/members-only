@@ -40,7 +40,14 @@ export default function MessageCard(
             </Button>
           }
           <Text>{message.message}</Text>
-          <Text alignSelf='end' fontSize='0.9rem' textAlign='end'> {message.username}</Text>
+          <Text 
+            alignSelf='end'
+            fontSize='0.9rem' 
+            fontWeight='600'
+            textAlign='end'
+          > 
+            {message.username}
+          </Text>
         </VStack>
       </Card>
   )
