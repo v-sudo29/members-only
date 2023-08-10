@@ -11,6 +11,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
+  Text,
   Textarea,
   useDisclosure
 } from "@chakra-ui/react"
@@ -93,7 +94,17 @@ export default function Home() {
 
   return (
     <Box h='45rem'>
-      <Heading>Hello {authUser && authUser.username}</Heading>
+      <Heading fontWeight='300'>Welcome back 
+        <span 
+          style={{
+            fontSize: '2.5rem',
+            fontWeight: '500',
+            marginLeft: '0.5rem'
+          }}
+        >
+          {authUser && authUser.username}
+        </span>
+      </Heading>
       <Stack
         h='100%'
         mt='1rem'
