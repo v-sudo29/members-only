@@ -31,16 +31,16 @@ db.on('error', console.error.bind(console, 'mongo connection error'))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(session({
-  secret: 'secretcode',
-  resave: true,
-  saveUninitialized: true
-}))
+// app.use(session({
+//   secret: 'secretcode',
+//   resave: true,
+//   saveUninitialized: true
+// }))
 localStrategy(passport)
-app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.initialize())
+// app.use(passport.session())
 
-app.use(cookieParser('secretcode')) // use same secret from session as param
+// app.use(cookieParser('secretcode')) // use same secret from session as param
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
