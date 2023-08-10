@@ -1,11 +1,48 @@
-import { Button, Heading } from "@chakra-ui/react"
+import { 
+  Box,
+  Button,
+  Card,
+  Heading,
+  HStack,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
+  Textarea,
+  VStack,
+  useDisclosure
+} from "@chakra-ui/react"
 import axios from "axios"
 import { useAuth } from "../context/AuthContext"
+import { useEffect, useState, useRef } from "react"
+import { useNavigate } from "react-router-dom"
+interface Message {
+  message: string,
+  username: string
+}
 
 export default function Home() {
   const auth = useAuth()
-  const { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = auth
+  const navigate = useNavigate()
+  const { authUser, setAuthUser, setIsLoggedIn } = auth
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [messages, setMessages] = useState<Message[]>()
+  const messageRef = useRef<HTMLTextAreaElement | null>(null)
+  const initialRef = useRef<HTMLTextAreaElement | null>(null)
 
+  // Get messages at every initial render
+  useEffect(() => {
+    axios.get('http://localhost:3000/message/all', { withCredentials: true })
+      .then(result => setMessages(result.data))
+      .catch(err => console.log(err))
+  }, [])
+
+  // Handles checking if user is logged in
   const handleGetInfo = () => {
     axios.get('http://localhost:3000/user', { withCredentials: true })
       .then(result => {
@@ -15,6 +52,7 @@ export default function Home() {
       .catch(err => console.log(err))
   }
 
+  // Handles logging out
   const handleLogout = () => {
     axios.get('http://localhost:3000/logout', { withCredentials: true })
       .then(result => {
@@ -25,21 +63,81 @@ export default function Home() {
       .catch(err => console.log(err))
   }
 
+  // Handles creating message
+  const handleCreateMessage = () => {
+    if (messageRef.current) {
+      axios.post('http://localhost:3000/message/create', { message: messageRef.current.value },
+      { withCredentials: true })
+        .then(result => console.log(result))
+        .catch(err => console.log(err))
+      onClose()
+      navigate(0)
+    }
+  }
+
+  let messageCards: (JSX.Element[] | null) = null
+  
+  if (messages) messageCards = messages.map((message, index) => {
+    return (
+      <Card
+        key={index}
+        textAlign='start' 
+        w='11rem'
+        p='1rem'
+      >
+        <VStack gap='1rem' justify='space-between'>
+          <Text>{message.message}</Text>
+          <Text fontSize='0.9rem' textAlign='end'> {message.username}</Text>
+        </VStack>
+      </Card>
+    )
+  })
+
   return (
-    <div>
-      <Heading>Homepage</Heading>
-      { authUser && (
-        <Heading 
-          fontSize='1.4rem' 
-          fontWeight='400'
-          mt='1rem'
-          >
-            Hello {authUser.username} 
-          </Heading> 
-      )}
+    <Box h='45rem'>
+      <Heading>Hello {authUser && authUser.username}</Heading>
+      <Stack
+        h='100%'
+        mt='1rem'
+        p='1rem'
+        boxShadow='base'
+      >
+        <HStack gap='1rem'>
+          {messageCards && messageCards}
+        </HStack>
+      </Stack>
       <Button onClick={handleGetInfo} mt='1rem'>Get User Info</Button>
-      { isLoggedIn && <Button onClick={handleLogout} ml='1rem' mt='1rem'>Log Out</Button> }
-    </div>
+      <Button onClick={handleLogout} ml='1rem' mt='1rem'>Log Out</Button>
+      <Button onClick={onOpen} ml='1rem' mt='1rem'>Create Message</Button>
+      
+      {/* MODAL */}
+      <Modal 
+        initialFocusRef={initialRef}
+        isOpen={isOpen} 
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>New Message</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Textarea 
+              ref={(el: HTMLTextAreaElement) => {
+                messageRef.current = el;  initialRef.current = el
+              }} 
+              resize='none' 
+              rows={10}/>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button onClick={handleCreateMessage} variant='ghost'>Create</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </Box>
   )
 }
 
