@@ -18,7 +18,8 @@ export default function Login() {
   const auth = useAuth()
   const { setAuthUser, setIsLoggedIn } = auth
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault()
     if (usernameRef.current && passwordRef.current) {
       const payload = {
         username: usernameRef.current.value,
@@ -39,7 +40,7 @@ export default function Login() {
   return (
     <VStack>
       <Heading>Login</Heading>
-      <Form style={{ width: '20rem'}}>
+      <Form onSubmit={(e) => handleSubmit(e)} style={{ width: '20rem'}}>
         <FormLabel mt='1rem'>Username</FormLabel>
         <Input 
           ref={usernameRef}
@@ -53,7 +54,7 @@ export default function Login() {
           placeholder='Password' 
           autoComplete='on'
         />
-        <Button onClick={handleSubmit} w='100%' mt='1rem'>Log in</Button>
+        <Button type='submit' w='100%' mt='1rem'>Log in</Button>
       </Form>
     </VStack>
   )

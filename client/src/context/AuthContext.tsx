@@ -1,19 +1,21 @@
-import { ReactNode, createContext, useContext, useState } from "react"
+import axios from "axios"
+import { ReactNode, createContext, useContext, useEffect, useState } from "react"
 
 export interface User {
   fullName: string,
   membershipStatus: boolean,
-  password: string,
   username: string,
-  __v: number,
-  _id: string
 }
 
 interface AuthObject {
   authUser: User | null,
   setAuthUser: React.Dispatch<React.SetStateAction<User | null>>,
   isLoggedIn: boolean,
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,
+  isLoading: boolean,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  authIsReady: boolean,
+  setAuthIsReady: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AuthContext = createContext<AuthObject>({} as AuthObject)
@@ -26,13 +28,39 @@ export const useAuth = () => {
 export const AuthProvider = ({ children } : { children: ReactNode }) => {
   const [authUser, setAuthUser] = useState<User | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [authIsReady, setAuthIsReady] = useState<boolean>(false)
 
   const authInfo = {
     authUser,
     setAuthUser,
     isLoggedIn,
-    setIsLoggedIn
+    setIsLoggedIn,
+    isLoading,
+    setIsLoading,
+    authIsReady,
+    setAuthIsReady
   }
+  
+  // This hook is evaluated once on initial component render
+  useEffect(() => {
+    if (!authUser) {
+      setIsLoading(true)
+      axios.get('http://localhost:3000/checkAuth', { withCredentials: true })
+        .then(result => {
+          if (result.data !== 'User not logged in') {
+            setAuthUser(result.data)
+            setIsLoggedIn(true)
+          }
+        })
+        .catch(err => console.log(err))
+        .finally (() => {
+          setIsLoading(false)
+          setAuthIsReady(true)
+        })   
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authUser])
 
   return (
     <AuthContext.Provider value={authInfo}>
