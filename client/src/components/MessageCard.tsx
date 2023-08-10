@@ -30,7 +30,7 @@ export default function MessageCard(
               pos='relative'
               bottom='1.9rem'
               left='5rem'
-              mb='-4rem'
+              mb='-6rem'
               borderRadius='2rem'
               size='xs'
               bg='gray.100'
