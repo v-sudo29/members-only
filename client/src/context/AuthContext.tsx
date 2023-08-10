@@ -1,4 +1,4 @@
-import axios from "axios"
+import axiosConfig from '../axiosConfig'
 import { ReactNode, createContext, useContext, useEffect, useState } from "react"
 
 export interface User {
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
   useEffect(() => {
     if (!authUser) {
       setIsLoading(true)
-      axios.get('http://localhost:3000/checkAuth', { withCredentials: true })
+      axiosConfig.get('/checkAuth', { withCredentials: true })
         .then(result => {
           if (result.data !== 'User not logged in') {
             setAuthUser(result.data)
