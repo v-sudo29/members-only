@@ -7,17 +7,17 @@ exports.message_get_all = asyncHandler(async (req, res, next) => {
   const allMessages = await Message.find({}, 'message user')
     .populate('user')
     .exec()
-    
+
   const filteredMessages = []
   for (let i = 0; i < allMessages.length; i++) {
     const newMsg = {
+      id: allMessages[i]._id.toHexString(),
       message: allMessages[i].message,
       username: allMessages[i].user.username,
       membershipStatus: allMessages[i].user.membershipStatus
     }
     filteredMessages.push(newMsg)
   }
-  console.log(filteredMessages)
   res.send(filteredMessages)
 })
 
@@ -46,4 +46,13 @@ exports.message_create = asyncHandler(async (req, res, next) => {
       res.send('New message created')
     }
   }
+})
+
+// DELETE request to delete message
+exports.message_delete = asyncHandler(async (req, res, next) => {
+
+  // Find message in db
+  const foundMessage = await Message.findByIdAndDelete(req.body.messageId)
+
+  res.send('Deleted message!')
 })
