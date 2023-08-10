@@ -21,9 +21,11 @@ import axios from "axios"
 import { useAuth } from "../context/AuthContext"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
+
 interface Message {
   message: string,
-  username: string
+  username: string,
+  id: string
 }
 
 export default function Home() {
@@ -75,19 +77,55 @@ export default function Home() {
     }
   }
 
+  // Handle deleting message
+  const handleDeleteMessage = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (messages) {
+      const buttonElement = e.target as HTMLButtonElement
+      const index = parseInt((buttonElement.parentNode?.parentNode as HTMLElement).id.split('-')[1])
+      const messageId = messages[index].id
+      const payload = { messageId: messageId }
+
+      axios.delete('http://localhost:3000/message/delete', { data: payload })
+        .then(result => {
+          console.log(result)
+          navigate(0)
+        })
+        .catch(err => console.error(err))
+    }
+
+  }
+
   let messageCards: (JSX.Element[] | null) = null
-  
+  console.log(messages)
   if (messages) messageCards = messages.map((message, index) => {
+    const userMatch = message.username === authUser?.username
+
     return (
       <Card
-        key={index}
+        key={message.id}
+        id={`message-${index}`}
         textAlign='start' 
-        w='11rem'
-        p='1rem'
+        w='13rem'
+        h='12rem'
+        p='2rem'
       >
-        <VStack gap='1rem' justify='space-between'>
+        <VStack gap='2rem' justify='space-between'>
+          {userMatch && 
+            <Button 
+              onClick={(e) => handleDeleteMessage(e)}
+              pos='relative'
+              bottom='1.3rem'
+              left='4.8rem'
+              mb='-4rem'
+              borderRadius='2rem'
+              size='xs'
+              bg='gray.200'
+            >
+              X
+            </Button>
+          }
           <Text>{message.message}</Text>
-          <Text fontSize='0.9rem' textAlign='end'> {message.username}</Text>
+          <Text alignSelf='end' fontSize='0.9rem' textAlign='end'> {message.username}</Text>
         </VStack>
       </Card>
     )
