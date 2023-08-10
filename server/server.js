@@ -5,8 +5,10 @@ const cors = require('cors')
 const passport = require('passport')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-const indexRouter = require('./routes/index')
 const localStrategy = require('./passportConfig')
+
+const indexRouter = require('./routes/index')
+const messageRouter = require('./routes/message')
 
 const app = express()
 const mongoDb = process.env.MONGO_DB_URI
@@ -40,5 +42,6 @@ app.use(passport.session())
 app.use(cookieParser('secretcode')) // use same secret from session as param
 
 app.use('/', indexRouter)
+app.use('/message', messageRouter)
 
 app.listen(3000, () => console.log('Server is running on port 3000'))

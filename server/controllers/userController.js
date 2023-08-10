@@ -40,6 +40,7 @@ exports.user_info = asyncHandler(async (req, res, next) => {
   else res.send(req.user)
 })
 
+// GET request to log out user
 exports.user_logout = (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err)
@@ -47,7 +48,7 @@ exports.user_logout = (req, res, next) => {
   })
 }
 
-// GET request to check authentication
+// GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {
   if (!req.user) res.send('User not logged in')
   else res.send(req.user)
