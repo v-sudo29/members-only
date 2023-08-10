@@ -14,20 +14,15 @@ const app = express()
 const mongoDb = process.env.MONGO_DB_URI
 
 // Connect to database
-// mongoose.connect(mongoDb, {
-//   useUnifiedTopology: true,
-//   useNewUrlParser: true
-// })
+mongoose.connect(mongoDb, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+})
 
-// const db = mongoose.connection
-// db.on('error', console.error.bind(console, 'mongo connection error'))
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'mongo connection error'))
 
 // Middleware
-// app.use(cors({
-//   origin: 'http://localhost:5173', // <-- location of the react app we're connecting to
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   credentials: true
-// }))
 app.use(cors({
   origin: 'http://localhost:5173',
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -35,16 +30,16 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-// app.use(session({
-//   secret: 'secretcode',
-//   resave: true,
-//   saveUninitialized: true
-// }))
-// localStrategy(passport)
-// app.use(passport.initialize())
-// app.use(passport.session())
+app.use(session({
+  secret: 'secretcode',
+  resave: true,
+  saveUninitialized: true
+}))
+localStrategy(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
-// app.use(cookieParser('secretcode')) // use same secret from session as param
+app.use(cookieParser('secretcode')) // use same secret from session as param
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
