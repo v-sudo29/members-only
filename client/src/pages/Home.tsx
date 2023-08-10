@@ -1,7 +1,6 @@
 import { 
   Box,
   Button,
-  Card,
   Heading,
   HStack,
   Modal,
@@ -12,21 +11,15 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text,
   Textarea,
-  VStack,
   useDisclosure
 } from "@chakra-ui/react"
 import axios from "axios"
 import { useAuth } from "../context/AuthContext"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-
-interface Message {
-  message: string,
-  username: string,
-  id: string
-}
+import Message from "../interfaces/message"
+import MessageCard from "../components/MessageCard"
 
 export default function Home() {
   const auth = useAuth()
@@ -47,10 +40,9 @@ export default function Home() {
   // Handles logging out
   const handleLogout = () => {
     axios.get('http://localhost:3000/logout', { withCredentials: true })
-      .then(result => {
+      .then(() => {
         setIsLoggedIn(false)
         setAuthUser(null)
-        console.log(result)
       })
       .catch(err => console.log(err))
   }
@@ -82,42 +74,20 @@ export default function Home() {
         })
         .catch(err => console.error(err))
     }
-
   }
 
   let messageCards: (JSX.Element[] | null) = null
-  console.log(messages)
+
   if (messages) messageCards = messages.map((message, index) => {
     const userMatch = message.username === authUser?.username
-
     return (
-      <Card
+      <MessageCard
         key={message.id}
-        id={`message-${index}`}
-        textAlign='start' 
-        w='13rem'
-        h='12rem'
-        p='2rem'
-      >
-        <VStack gap='2rem' justify='space-between'>
-          {userMatch && 
-            <Button 
-              onClick={(e) => handleDeleteMessage(e)}
-              pos='relative'
-              bottom='1.3rem'
-              left='4.8rem'
-              mb='-4rem'
-              borderRadius='2rem'
-              size='xs'
-              bg='gray.200'
-            >
-              X
-            </Button>
-          }
-          <Text>{message.message}</Text>
-          <Text alignSelf='end' fontSize='0.9rem' textAlign='end'> {message.username}</Text>
-        </VStack>
-      </Card>
+        message={message}
+        index={index}
+        userMatch={userMatch}
+        handleDeleteMessage={handleDeleteMessage}
+      />
     )
   })
 
