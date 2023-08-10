@@ -23,6 +23,7 @@ mongoose.connect(mongoDb, {
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongo connection error'))
 
+app.enable('trust proxy')
 // Middleware
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -42,6 +43,8 @@ app.use(session({
   saveUninitialized: true,
   store: sessionStore,
   cookie: {
+    sameSite: 'none',
+    secure: true,
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
 }))
