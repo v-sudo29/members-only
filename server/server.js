@@ -34,6 +34,7 @@ app.use(express.urlencoded({ extended: true }))
 
 const sessionStore = MongoStore.create({
   client: db,
+  dbName: 'members-only',
   collectionName: 'sessions'
 })
 
