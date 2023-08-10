@@ -100,7 +100,7 @@ export default function Home() {
         p='1rem'
         boxShadow='base'
       >
-        <HStack gap='1rem'>
+        <HStack flexWrap='wrap' gap='1rem'>
           {messageCards && messageCards}
         </HStack>
       </Stack>

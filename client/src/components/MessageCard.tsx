@@ -18,21 +18,23 @@ export default function MessageCard(
         key={message.id}
         id={`message-${index}`}
         textAlign='start' 
-        w='13rem'
+        minW='13rem'
+        maxW='13rem'
         h='12rem'
-        p='2rem'
+        p='2.5rem 1.5rem'
       >
-        <VStack gap='2rem' justify='space-between'>
+        <VStack gap='2rem' h='100%' justify='space-between'>
           {userMatch && 
             <Button 
               onClick={(e) => handleDeleteMessage(e)}
               pos='relative'
-              bottom='1.3rem'
-              left='4.8rem'
+              bottom='1.9rem'
+              left='5rem'
               mb='-4rem'
               borderRadius='2rem'
               size='xs'
-              bg='gray.200'
+              bg='gray.100'
+              fontSize='0.6rem'
             >
               X
             </Button>
