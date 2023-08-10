@@ -14,13 +14,13 @@ const app = express()
 const mongoDb = process.env.MONGO_DB_URI
 
 // Connect to database
-mongoose.connect(mongoDb, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
-})
+// mongoose.connect(mongoDb, {
+//   useUnifiedTopology: true,
+//   useNewUrlParser: true
+// })
 
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'mongo connection error'))
+// const db = mongoose.connection
+// db.on('error', console.error.bind(console, 'mongo connection error'))
 
 // Middleware
 // app.use(cors({
@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: true }))
 //   resave: true,
 //   saveUninitialized: true
 // }))
-localStrategy(passport)
+// localStrategy(passport)
 // app.use(passport.initialize())
 // app.use(passport.session())
 
