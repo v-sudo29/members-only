@@ -37,7 +37,7 @@ export default function Login() {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           if (err.response.status === 401) setInvalidCredentials(true)
         })
     }
