@@ -40,7 +40,7 @@ const sessionStore = MongoStore.create({
 app.use(session({
   secret: 'secretcode',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: sessionStore,
   cookie: {
     sameSite: 'none',
