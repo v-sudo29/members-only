@@ -52,7 +52,7 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
             setAuthUser(result.data)
             setIsLoggedIn(true)
             console.log(result.data)
-          }
+          } else console.log(result.data)
         })
         .catch(err => console.log(err))
         .finally (() => {
