@@ -46,7 +46,7 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
   useEffect(() => {
     if (!authUser) {
       setIsLoading(true)
-      axiosConfig.get('/checkAuth', { withCredentials: true })
+      axiosConfig.post('/checkAuth', {}, { withCredentials: true })
         .then(result => {
           console.log(result.data)
           if (result.data !== 'User not logged in') {
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
           setIsLoading(false)
           setAuthIsReady(true)
         })   
-    }
+    } else console.log('Is logged in: ', isLoggedIn)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser])
 
