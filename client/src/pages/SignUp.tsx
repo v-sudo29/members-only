@@ -42,7 +42,7 @@ export default function SignUp() {
         password: passwordRef.current.value,
         membershipStatus: false
       }
-      axiosConfig.post('http://localhost:3000/sign-up', payload)
+      axiosConfig.post('http://localhost:3000/sign-up', payload, { withCredentials: true })
         .then(() => {
           navigate('/')
           alert('Successfully signed up!')
