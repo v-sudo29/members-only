@@ -37,7 +37,7 @@ exports.user_create = asyncHandler(async (req, res, next) => {
 // GET request to log out user
 exports.user_logout = (req, res, next) => {
   req.logout((err) => {
-    if (err) return next(err)
+    if (err) throw err
     res.send('User logged out')
   })
 }
