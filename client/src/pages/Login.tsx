@@ -9,7 +9,7 @@ import {
   VStack
 } from "@chakra-ui/react"
 import { Form } from "react-router-dom"
-import axios from "axios"
+import axiosConfig from '../axiosConfig'
 import { useAuth } from "../context/AuthContext"
 
 export default function Login() {
@@ -27,7 +27,7 @@ export default function Login() {
         username: usernameRef.current.value,
         password: passwordRef.current.value
       }
-      axios.post('http://localhost:3000/login', payload, { withCredentials: true })
+      axiosConfig.post('/login', payload, { withCredentials: true })
         .then(result => {
           if (result.data !== 'Invalid credentials') {
             setInvalidCredentials(false)

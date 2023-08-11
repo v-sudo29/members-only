@@ -14,7 +14,7 @@ import {
   Textarea,
   useDisclosure
 } from "@chakra-ui/react"
-import axios from "axios"
+import axiosConfig from '../axiosConfig'
 import { useAuth } from "../context/AuthContext"
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
@@ -32,15 +32,16 @@ export default function Home() {
 
   // Get messages at every initial render
   useEffect(() => {
-    axios.get('http://localhost:3000/message/all', { withCredentials: true })
+    axiosConfig.get('/message/all', { withCredentials: true })
       .then(result => setMessages(result.data))
       .catch(err => console.log(err))
   }, [])
 
   // Handles logging out
   const handleLogout = () => {
-    axios.get('http://localhost:3000/logout', { withCredentials: true })
-      .then(() => {
+    axiosConfig.post('/logout', { withCredentials: true })
+      .then(result => {
+        console.log(result)
         setIsLoggedIn(false)
         setAuthUser(null)
       })
@@ -50,7 +51,7 @@ export default function Home() {
   // Handles creating message
   const handleCreateMessage = () => {
     if (messageRef.current) {
-      axios.post('http://localhost:3000/message/create', { message: messageRef.current.value },
+      axiosConfig.post('/message/create', { message: messageRef.current.value },
       { withCredentials: true })
         .then(result => console.log(result))
         .catch(err => console.log(err))
@@ -67,7 +68,7 @@ export default function Home() {
       const messageId = messages[index].id
       const payload = { messageId: messageId }
 
-      axios.delete('http://localhost:3000/message/delete', { data: payload })
+      axiosConfig.delete('/message/delete', { data: payload })
         .then(result => {
           console.log(result)
           navigate(0)

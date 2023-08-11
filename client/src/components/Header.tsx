@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
-import axios from "axios"
+import axiosConfig from '../axiosConfig'
 
 export default function Header() {
   const authUser = useAuth()
   const { isLoggedIn, setIsLoggedIn, setAuthUser } = authUser
 
   const handleLogout = () => {
-    axios.get('http://localhost:3000/logout', { withCredentials: true })
+    axiosConfig.get('/logout', { withCredentials: true })
       .then(result => {
         setIsLoggedIn(false)
         setAuthUser(null)

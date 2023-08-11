@@ -7,7 +7,7 @@ import {
   VStack
 } from "@chakra-ui/react"
 import { Form, useNavigate } from "react-router-dom"
-import axios from "axios"
+import axiosConfig from '../axiosConfig'
 
 export default function SignUp() {
   const firstNameRef = useRef<HTMLInputElement | null>(null)
@@ -42,7 +42,7 @@ export default function SignUp() {
         password: passwordRef.current.value,
         membershipStatus: false
       }
-      axios.post('http://localhost:3000/sign-up', payload)
+      axiosConfig.post('http://localhost:3000/sign-up', payload)
         .then(() => {
           navigate('/')
           alert('Successfully signed up!')
