@@ -49,10 +49,9 @@ app.use(session({
   }
 }))
 app.use(cookieParser('secretcode')) // use same secret from session as param
-localStrategy(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-
+localStrategy(passport)
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
