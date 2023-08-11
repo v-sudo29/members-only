@@ -28,9 +28,10 @@ module.exports = function(passport) {
   })
 
   passport.deserializeUser(async (id, done) => {
+    console.log('deserializeUser running, id: ', id)
     try {
       const foundUser = await User.findById(id)
-      console.log('deserializeUser called, ID', id)
+      console.log('deserializeUser try/catch called, ID', id)
       const filteredUser = {
         username: foundUser.username,
         fullName: foundUser.fullName,
