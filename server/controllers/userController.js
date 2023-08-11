@@ -44,11 +44,12 @@ exports.user_logout = (req, res, next) => {
 
 // GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {
-  console.log('req.user', req.user)
-  console.log('req', req)
-  if (!req.user) res.send('User not logged in')
-  else {
-    console.log('Auth checked! Sent user info')
-    res.send(req.user)
-  }
+  // console.log('req.user', req.user)
+  // console.log('req', req)
+  // if (!req.user) res.send('User not logged in')
+  // else {
+  //   console.log('Auth checked! Sent user info')
+  //   res.send(req.user)
+  // }
+  res.send('working!')
 }
