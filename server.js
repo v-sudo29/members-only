@@ -58,8 +58,11 @@ app.use(passport.session())
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname+'/client/dist/index.html'))
-// })
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/dist')))
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/dist', 'index.html'))
+  })
+}
 
 app.listen(3000, () => console.log('Server is running on port 3000'))
