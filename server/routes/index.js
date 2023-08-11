@@ -12,6 +12,6 @@ router.post('/sign-up', user_controller.user_create)
 router.get('/logout', user_controller.user_logout)
 
 // GET request to check auth
-router.get('/checkAuth', user_controller.user_auth_check)
+router.post('/checkAuth', user_controller.user_auth_check)
 
 module.exports = router
