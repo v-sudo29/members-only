@@ -48,10 +48,10 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
 }))
+app.use(cookieParser('secretcode')) // use same secret from session as param
 localStrategy(passport)
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(cookieParser('secretcode')) // use same secret from session as param
 
 
 app.use('/', indexRouter)
