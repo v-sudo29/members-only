@@ -33,7 +33,7 @@ app.use(cors({
 }))
 
 app.set("trust proxy", 1);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -57,5 +57,9 @@ app.use(passport.session())
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/dist/index.html'))
+})
 
 app.listen(3000, () => console.log('Server is running on port 3000'))
