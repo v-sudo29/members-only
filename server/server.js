@@ -23,7 +23,6 @@ mongoose.connect(mongoDb, {
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongo connection error'))
 
-app.set('trust proxy', 1)
 // Middleware
 app.use(cors({
   origin: true,
