@@ -31,16 +31,16 @@ app.use(cors({
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 localStrategy(passport)
 const sessionStore = MongoStore.create({
   client: db.getClient(),
 })
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser('secretcode')) // use same secret from session as param
-app.use(express.bodyParser());
 app.use(session({
   secret: 'secretcode',
   resave: false,
