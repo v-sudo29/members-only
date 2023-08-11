@@ -40,6 +40,7 @@ const sessionStore = MongoStore.create({
   client: db.getClient(),
   autoRemove: 'native'
 })
+
 app.use(session({
   secret: 'secretcode',
   resave: true,
