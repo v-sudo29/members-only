@@ -13,6 +13,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
       req.logIn(user, err => {
         if (err) throw err
         res.send(req.user)
+        console.log('Logged in!')
       })
     }
   })(req, res, next)
@@ -39,6 +40,7 @@ exports.user_logout = (req, res, next) => {
   req.logout((err) => {
     if (err) throw err
     res.send('User logged out')
+    console.log('User logged out!')
   })
 }
 

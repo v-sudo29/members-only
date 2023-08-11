@@ -41,7 +41,7 @@ app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(session({
   secret: 'secretcode',
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: sessionStore,
   cookie: {
     sameSite: 'none',
