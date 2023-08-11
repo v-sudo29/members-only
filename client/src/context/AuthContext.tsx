@@ -48,7 +48,6 @@ export const AuthProvider = ({ children } : { children: ReactNode }) => {
       setIsLoading(true)
       axiosConfig.post('/checkAuth', {}, { withCredentials: true })
         .then(result => {
-          console.log(result.data)
           if (result.data !== 'User not logged in') {
             setAuthUser(result.data)
             setIsLoggedIn(true)

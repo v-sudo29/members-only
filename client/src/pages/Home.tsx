@@ -39,7 +39,7 @@ export default function Home() {
 
   // Handles logging out
   const handleLogout = () => {
-    axiosConfig.post('/logout', {}, { withCredentials: true })
+    axiosConfig.get('/logout', { withCredentials: true })
       .then(result => {
         console.log(result)
         setIsLoggedIn(false)
