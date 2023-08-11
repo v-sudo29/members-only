@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const passport = require('passport')
 const session = require('express-session')
+const bodyParser = require('body-parser')
+const path = require('path')
 const cookieParser = require('cookie-parser')
 const localStrategy = require('./passportConfig')
 const MongoStore = require('connect-mongo')
@@ -36,7 +38,9 @@ const sessionStore = MongoStore.create({
   client: db.getClient(),
 })
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser('secretcode')) // use same secret from session as param
+app.use(express.bodyParser());
 app.use(session({
   secret: 'secretcode',
   resave: false,
