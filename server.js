@@ -29,8 +29,19 @@ db.on('error', console.error.bind(console, 'mongo connection error'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 localStrategy(passport)
+
+const whitelist = ['http://localhost:5173', `${process.env.CLIENT_URL}`, '127.0.0.1:5173']
 app.use(cors({
-  origin: ['http://localhost:5173', `${process.env.CLIENT_URL}`, '127.0.0.1:5173'],
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
@@ -57,7 +68,7 @@ app.use(passport.session())
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
-
+g
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/dist')))
   app.get('*', function(req, res) {
