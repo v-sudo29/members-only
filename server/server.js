@@ -23,7 +23,7 @@ mongoose.connect(mongoDb, {
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongo connection error'))
 
-app.set('trust proxy')
+app.set('trust proxy', 1)
 // Middleware
 app.use(cors({
   origin: true,
@@ -37,9 +37,10 @@ const sessionStore = MongoStore.create({
   client: db.getClient(),
 })
 
+app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(session({
   secret: 'secretcode',
-  resave: true,
+  resave: false,
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
@@ -48,7 +49,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
 }))
-app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(passport.initialize())
 app.use(passport.session())
 
