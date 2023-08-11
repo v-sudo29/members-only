@@ -3,6 +3,7 @@ const User = require('../models/user')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
+const { request } = require('express')
 
 // POST request to login
 exports.user_login = asyncHandler(async (req, res, next) => {
@@ -44,6 +45,8 @@ exports.user_logout = (req, res, next) => {
 
 // GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {
+  console.log('req.user', req.user)
+  console.log('req', req)
   if (!req.user) res.send('User not logged in')
   else {
     console.log('Auth checked! Sent user info')
