@@ -51,9 +51,8 @@ export default function Home() {
   // Handles creating message
   const handleCreateMessage = () => {
     if (messageRef.current) {
-      axiosConfig.post('/message/create', { message: messageRef.current.value },
-      { withCredentials: true })
-        .then(result => console.log(result))
+      axiosConfig.post('/message/create', { message: messageRef.current.value }, { withCredentials: true })
+        .then(result => console.log(result.data))
         .catch(err => console.log(err))
       onClose()
       navigate(0)

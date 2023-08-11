@@ -7,7 +7,6 @@ exports.message_get_all = asyncHandler(async (req, res, next) => {
   const allMessages = await Message.find({}, 'message user')
     .populate('user')
     .exec()
-
   const filteredMessages = []
   for (let i = 0; i < allMessages.length; i++) {
     const newMsg = {
@@ -33,8 +32,7 @@ exports.message_create = asyncHandler(async (req, res, next) => {
         { username: req.user.username }, 
         {_id: {"$toString": "$_id"} }
       ).lean().exec()
-    
-    if (!foundUser) return res.send('User not found')
+    if (!foundUser) res.send('User not found')
 
     // Create new Message in db
     else {
@@ -42,7 +40,7 @@ exports.message_create = asyncHandler(async (req, res, next) => {
         message: req.body.message,
         user: foundUser._id
       })
-      console.log(newMessage)
+      console.log('New message created!', newMessage.message)
       res.send('New message created')
     }
   }

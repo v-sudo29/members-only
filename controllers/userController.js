@@ -13,7 +13,7 @@ exports.user_login = asyncHandler(async (req, res, next) => {
       req.logIn(user, err => {
         if (err) throw err
         res.send(req.user)
-        console.log('Logged in!')
+        console.log('Logged in!!!')
       })
     }
   })(req, res, next)
@@ -36,13 +36,15 @@ exports.user_create = asyncHandler(async (req, res, next) => {
 })
 
 // GET request to log out user
-exports.user_logout = (req, res, next) => {
-  req.logout((err) => {
+exports.user_logout = ((req, res, next) => {
+  req.logout(req.user, (err) => {
+    console.log('Running req.logout!')
     if (err) throw err
-    res.send('User logged out')
     console.log('User logged out!')
   })
-}
+  res.clearCookie('connect.sid');
+  res.send({isAuth: req.isAuthenticated(), user: req.user})
+})
 
 // GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {

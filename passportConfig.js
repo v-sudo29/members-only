@@ -22,22 +22,20 @@ module.exports = function(passport) {
   )
 
   passport.serializeUser((user, done) => {
-    console.log('serializeUser called', user)
-    console.log('id: ', user.id)
+    // console.log('serializeUser called')
     done(null, user.id)
   })
 
   passport.deserializeUser(async (id, done) => {
-    console.log('deserializeUser running, id: ', id)
+    // console.log('deserializeUser running, id')
     try {
       const foundUser = await User.findById(id)
-      console.log('deserializeUser try/catch called, ID', id)
+      // console.log('deserializeUser try/catch called')
       const filteredUser = {
         username: foundUser.username,
         fullName: foundUser.fullName,
         membershipStatus: foundUser.membershipStatus
       }
-      console.log('deserializeUser called, filteredUser', filteredUser)
       done(null, filteredUser)
     } catch(err) {
       done(err)

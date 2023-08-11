@@ -26,28 +26,27 @@ const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongo connection error'))
 
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:5173', `${process.env.CLIENT_URL}`],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true
-}))
-
-app.set("trust proxy", 1);
-app.use(express.static(path.join(__dirname, 'client/dist')));
-app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 localStrategy(passport)
+app.use(cors({
+  origin: ['http://localhost:5173', `${process.env.CLIENT_URL}`, '127.0.0.1:5173'],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true
+}))
+app.use(cookieParser('secretcode')) // use same secret from session as param
+// app.use(express.static(path.join(__dirname, 'client/dist')));
 const sessionStore = MongoStore.create({
   client: db.getClient(),
+  autoRemove: 'native'
 })
 app.use(session({
   secret: 'secretcode',
-  resave: false,
-  saveUninitialized: true,
+  resave: true,
+  saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    sameSite: 'none',
+    // sameSite: 'none', // uncomment for deployment
     secure: false,
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
@@ -58,8 +57,8 @@ app.use(passport.session())
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/dist/index.html'))
-})
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname+'/client/dist/index.html'))
+// })
 
 app.listen(3000, () => console.log('Server is running on port 3000'))
