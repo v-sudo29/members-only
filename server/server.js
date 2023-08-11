@@ -27,7 +27,7 @@ db.on('error', console.error.bind(console, 'mongo connection error'))
 
 // Middleware
 app.use(cors({
-  origin: true,
+  origin: ['http://localhost:5173', `${process.env.CLIENT_URL}`],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
