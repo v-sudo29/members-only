@@ -3,7 +3,6 @@ const User = require('../models/user')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
-const { request } = require('express')
 
 // POST request to login
 exports.user_login = asyncHandler(async (req, res, next) => {
