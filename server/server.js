@@ -32,7 +32,7 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+localStrategy(passport)
 const sessionStore = MongoStore.create({
   client: db.getClient(),
 })
@@ -51,7 +51,6 @@ app.use(session({
 app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(passport.initialize())
 app.use(passport.session())
-localStrategy(passport)
 
 app.use('/', indexRouter)
 app.use('/message', messageRouter)
