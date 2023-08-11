@@ -22,6 +22,7 @@ module.exports = function(passport) {
   )
 
   passport.serializeUser((user, done) => {
+    console.log('serializeUser called')
     done(null, user.id)
   })
 
@@ -33,6 +34,7 @@ module.exports = function(passport) {
         fullName: foundUser.fullName,
         membershipStatus: foundUser.membershipStatus
       }
+      console.log('deserializeUser called')
       done(null, user)
     } catch(err) {
       done(err)

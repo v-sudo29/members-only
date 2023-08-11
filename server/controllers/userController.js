@@ -45,5 +45,8 @@ exports.user_logout = (req, res, next) => {
 // GET request to check user authentication
 exports.user_auth_check = (req, res, next) => {
   if (!req.user) res.send('User not logged in')
-  else res.send(req.user)
+  else {
+    console.log('Auth checked! Sent user info')
+    res.send(req.user)
+  }
 }
