@@ -26,7 +26,7 @@ db.on('error', console.error.bind(console, 'mongo connection error'))
 app.enable('trust proxy')
 // Middleware
 app.use(cors({
-  origin: 'https://members-only-7iz5.onrender.com/',
+  origin: 'https://members-only-7iz5.onrender.com',
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
