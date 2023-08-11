@@ -40,11 +40,12 @@ const sessionStore = MongoStore.create({
 app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(session({
   secret: 'secretcode',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   store: sessionStore,
   cookie: {
     sameSite: 'none',
+    secure: false,
     maxAge: 1000 * 60 * 60 * 24 // Equals 1 day
   }
 }))
