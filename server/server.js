@@ -32,7 +32,7 @@ app.use(cors({
   credentials: true
 }))
 
-
+app.set("trust proxy", 1);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser('secretcode')) // use same secret from session as param
 app.use(express.json())
